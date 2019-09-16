@@ -48,10 +48,7 @@ public class CalendarStuff {
    private static final int NOVEMBER   = OCTOBER   + 1;
    private static final int DECEMBER   = NOVEMBER  + 1;
 
-  /**
-   * An array containing the number of days in each month
-   *  NOTE: this excludes leap years, so those will be handled as special cases
-   */
+
    private static int[]    days        = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
 
   /**
@@ -212,8 +209,83 @@ public class CalendarStuff {
    * @param    year2  long   containing four-digit year
    * @return          long   count of total number of days
    */
-   public static long daysBetween( long month1, long day1, long year1, long month2, long day2, long year2 ) {
-      long result = 0;
-      return result;
+   public static long daysBetween( long month1, long day1, long year1, long month2, long day2, long year2 )
+   {
+      int count = 0;
+      if(dateEquals(month1,day1,year1,month2,day2,year2))
+      {
+        return 0;
+      }
+      if(compareDate(month1,day1,year1,month2,day2,year2) == -1)
+      {
+        while(!dateEquals(month1,day1,year1,month2,day2,year2))
+        {
+          if(day1<days[(int)month1-1])
+          {
+            day1++;
+            count ++;
+            // System.out.println(month1+","+day1+","+year1+" Count: "+count);
+          }
+          else
+          {
+            day1 =1;
+            if(month1 ==12)
+            {
+              month1 = 1;
+              year1 ++;
+              count ++;
+            }
+            else
+            {
+                if(isLeapYear(year1)&&month1== 2)
+                {
+                  month1++;
+                  count +=2;
+                }
+                else
+                {
+                  month1 ++;
+                  count++;
+                }
+            }
+
+             // System.out.println(month1+","+day1+","+year1+" Count: "+count);
+          }
+        }
+      }
+      else
+      {
+        while(!dateEquals(month1,day1,year1,month2,day2,year2))
+        {
+          if(day2<days[(int)month2-1])
+          {
+            day2++;
+            count ++;
+            // System.out.println(month1+","+day1+","+year1+" Count: "+count);
+          }
+          else
+          {
+            day2 =1;
+            if(month2 ==12)
+            {
+              month2 = 1;
+              year2 ++;
+              count ++;
+            }
+            else
+            {
+                month2 ++;
+                count++;
+            }
+
+             // System.out.println(month1+","+day1+","+year1+" Count: "+count);
+          }
+        }
+      }
+      return (long)count;
    }
+   public static void main(String[] args){
+     daysBetween(12,30,2005,1,2,2006);
+   }
+
  }
