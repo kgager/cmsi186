@@ -42,7 +42,7 @@ public class  HighRoll{
           if('A' == inputLine.toUpperCase().charAt(0))
           {
             ds.roll();
-            if{sides == 1}
+            if(sides == 1)
             {
               System.out.println("\nYour die roll is "+ ds +"\n");
             }
