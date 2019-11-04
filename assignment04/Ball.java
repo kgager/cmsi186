@@ -122,13 +122,13 @@ public class  Ball{
      *  Method to determine if the ball is in bounds based off of inputed field boundaries
      */
     public void setOutOfBounds(double minXpos, double maxXpos, double minYpos, double maxYpos){
-      if(xPos + radius > maxYpos ||
-         xPos - radius < minXpos ||
-         yPos + radius > maxYpos ||
-         yPos - radius < minYpos){
+      if(getCurrentX_Position() + radius > maxXpos ||
+         getCurrentX_Position() - radius < minXpos ||
+         getCurrentY_Position() + radius > maxYpos ||
+         getCurrentY_Position() - radius < minYpos){
            xVelocity =0;
            yVelocity =0;
-           isInBounds = false;
+           this.isInBounds = false;
       }
 
     }
@@ -158,6 +158,195 @@ public class  Ball{
    *  Method to test to see if program works
    */
   public static void main(String[] args) {
+    System.out.println( "\nBALL CLASS TESTER PROGRAM\n" +
+                          "--------------------------\n" );
+      System.out.println( "  Creating a new ball: " );
+      Ball ball = new Ball(0,0,1,1);
+      System.out.println( "    New ball created: " + ball.toString() );
+
+
+      System.out.println("     Testing toString() method ");
+      System.out.println("     Info about the ball should be displayed");
+
+      System.out.println("     Testing getCurrentX_Position() and getCurrentY_Position() methods");
+      System.out.println("     Location should be (0,0) ");
+      System.out.println("     Testing getCurrentSpeed() method ");
+      System.out.println("     Result should have said 0");
+      if(ball.isStillMoving()){
+        System.out.println("     The ball is still moving");
+      }
+      else{
+      System.out.println("     The ball is NOT moving");
+    }
+      System.out.println("     Testing isStillMoving() method ");
+      System.out.println("     Result should have said  The ball is still moving");
+
+      ball.setOutOfBounds(-75,75,-175,175);
+      if(ball.isInBounds()){
+        System.out.println("     The ball is in bounds");
+      }
+      else{
+      System.out.println("     The ball is not in bounds");
+    }
+
+      System.out.println("     Testing isInBounds() method ");
+      System.out.println("     Result should have said the ball is in bounds ");
+
+
+
+
+
+      ball.move(1);
+      System.out.println("\n Testing move() method. Ball should be moved once with DEFAULT_TIMELICE");
+      System.out.println(ball.toString());
+      System.out.println("     Testing toString() method ");
+      System.out.println("     Info about the ball should be displayed");
+
+      System.out.println("     Testing getCurrentX_Position() and getCurrentY_Position() methods");
+      System.out.println("     Location should be (1.0,1.0) ");
+      System.out.println("     Testing getCurrentSpeed() method ");
+      System.out.println("     Result should have said 1.4");
+      if(ball.isStillMoving()){
+        System.out.println("     The ball is still moving");
+      }
+      else{
+      System.out.println("     The ball is not moving");
+    }
+      System.out.println("     Testing isStillMoving() method ");
+      System.out.println("     Result should have said  The ball is still moving");
+
+      ball.setOutOfBounds(-75,75,-175,175);
+      if(ball.isInBounds()){
+        System.out.println("     The ball is in bounds");
+      }
+      else{
+      System.out.println("     The ball is not in bounds");
+    }
+
+      System.out.println("     Testing isInBounds() method ");
+      System.out.println("     Result should have said the ball is in bounds ");
+
+      ball.move(1);
+      System.out.println("\n Testing move() method. to see if friction was applied. Ball should be moved once again with the same time slice");
+      System.out.println(ball.toString());
+      System.out.println("     Testing toString() method ");
+      System.out.println("     Info about the ball should be displayed");
+
+      System.out.println("     Testing getCurrentX_Position() and getCurrentY_Position() methods");
+      System.out.println("     Location should be (1.99,1.99) ");
+      System.out.println("     Testing getCurrentSpeed() method ");
+      System.out.println("     Result should have said 1.386");
+      if(ball.isStillMoving()){
+        System.out.println("     The ball is still moving");
+      }
+      else{
+      System.out.println("     The ball is not moving");
+      }
+      System.out.println("     Testing isStillMoving() method ");
+      System.out.println("     Result should have said  The ball is still moving");
+
+      ball.setOutOfBounds(-75,75,-175,175);
+      if(ball.isInBounds()){
+        System.out.println("     The ball is in bounds");
+      }
+      else{
+      System.out.println("     The ball is not in bounds");
+      }
+
+      System.out.println("     Testing isInBounds() method ");
+      System.out.println("     Result should have said the ball is in bounds ");
+      for (int i =0;i<18 ;i++ ) {
+            ball.move(1);
+      }
+      System.out.println("\n Testing move() method to see if it works after multiple iterations; move() method is caleed 18 more times with the same time slice");
+      System.out.println(ball.toString());
+      System.out.println("     Testing toString() method ");
+      System.out.println("     Info about the ball should be displayed");
+
+      System.out.println("     Testing getCurrentX_Position() and getCurrentY_Position() methods");
+      System.out.println("     Location should be (18.209,18.209) ");
+      System.out.println("     Testing getCurrentSpeed() method ");
+      System.out.println("     Result should have said 1.157");
+      if(ball.isStillMoving()){
+        System.out.println("     The ball is still moving");
+      }
+      else{
+      System.out.println("     The ball is NOT moving");
+      }
+      System.out.println("     Testing isStillMoving() method ");
+      System.out.println("     Result should have said  The ball is still moving");
+
+      ball.setOutOfBounds(-75,75,-175,175);
+      if(ball.isInBounds()){
+        System.out.println("     The ball is in bounds");
+      }
+      else{
+      System.out.println("     The ball is NOT in bounds");
+      }
+
+      System.out.println("     Testing isInBounds() method ");
+      System.out.println("     Result should have said the ball is in bounds ");
+
+      for (int i =0;i<180 ;i++ ) {
+            ball.move(1);
+      }
+      System.out.println("\n Testing move() method to see if it works after lots of iterations; move() method is caleed 80 more times with the same time slice");
+      System.out.println(ball.toString());
+      System.out.println("     Testing toString() method ");
+      System.out.println("     Info about the ball should be displayed");
+
+      System.out.println("     Testing getCurrentX_Position() and getCurrentY_Position() methods");
+      System.out.println("     Location should be (86.602,86.602) ");
+      System.out.println("     Testing getCurrentSpeed() method ");
+      System.out.println("     Result should have said .189");
+      if(ball.isStillMoving()){
+        System.out.println("     The ball is still moving");
+      }
+      else{
+      System.out.println("     The ball is NOT moving");
+      }
+      System.out.println("     Testing isStillMoving() method ");
+      System.out.println("     Result should have said  The ball is still moving");
+      ball.setOutOfBounds(-75,75,-175,175);
+      if(ball.isInBounds()){
+        System.out.println("     The ball is in bounds");
+      }
+      else{
+      System.out.println("     The ball is NOT in bounds");
+      }
+
+      System.out.println("     Testing isInBounds() and setOfBounds() methods ");
+      System.out.println("     Result should have said the ball is NOT in bounds as the x_position is now out of bounds");
+      ball.move(1);
+      System.out.println("     \nMoving ball once again to check setOutOfBounds() method ");
+      System.out.println("     The setOutOfBounds() method should have revert the speed to 0 so the postion should not have changed");
+      System.out.println(ball.toString());
+      System.out.println("     Testing toString() method ");
+      System.out.println("     Info about the ball should be displayed");
+
+      System.out.println("     Testing getCurrentX_Position() and getCurrentY_Position() methods");
+      System.out.println("     Location should be (86.602,86.602) ");
+      System.out.println("     Testing getCurrentSpeed() method ");
+      System.out.println("     Result should have said .189");
+      if(ball.isStillMoving()){
+        System.out.println("     The ball is still moving");
+      }
+      else{
+      System.out.println("     The ball is NOT moving");
+      }
+      System.out.println("     Testing isStillMoving() method ");
+      System.out.println("     Result should have said  The ball is NOT moving as the ball is no longer moving");
+      ball.setOutOfBounds(-75,75,-175,175);
+      if(ball.isInBounds()){
+        System.out.println("     The ball is in bounds");
+      }
+      else{
+      System.out.println("     The ball is NOT in bounds");
+      }
+
+      System.out.println("     Testing isInBounds() and setOfBounds() methods ");
+      System.out.println("     Result should have said the ball is NOT in bounds as the x_position is now out of bounds");
+
 
   }
 }
