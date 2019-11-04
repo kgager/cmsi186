@@ -153,4 +153,11 @@ public class  Ball{
     double scale = Math.pow(10, places);
     return Math.round(value * scale) / scale;
   }
+
+  /**
+   *  Method to test to see if program works
+   */
+  public static void main(String[] args) {
+
+  }
 }

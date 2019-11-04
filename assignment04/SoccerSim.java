@@ -5,7 +5,8 @@
  *  @author       :  Kevin Gager
  *  Date written  :  2019-10-31
  *  Description   :  This class provides a bunch of methods for Homework 4
- *  Exceptions    :  IllegalArgumentException when the input arguments are not doubles, not the right amount, or result in the
+ *  Exceptions    :  IllegalArgumentException when the input arguments are not doubles
+                     NumberFormatException when the input arguments not the right amount, or result in the
  *                   balls overlapping initially or being initially out of bounds.
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  *  Revision History
@@ -27,7 +28,7 @@ public class SoccerSim{
   public static boolean ballsCollided = false;
   private static BufferedReader input = new BufferedReader( new InputStreamReader(System.in));
   private static boolean hasPoll;
-
+  private static int numOfIterations;
   private static int poleXLocation;
   private static int poleYLocation;
 
@@ -89,6 +90,7 @@ public class SoccerSim{
     {
       System.out.println("\nBalls collided at t = "+timeElapsed+" secounds");
     }
+    System.out.println("This program ran a total of "+numOfIterations+" iterations");
 
 
   }
@@ -101,6 +103,7 @@ public class SoccerSim{
    *  Mkaes last argument if applicable to be the timeslice
    *  this sets up the variables for the simulation
    * @throws      IllegalArgumentException
+   *              NumberFormatException
    */
   public static void validateArgsAndSetupSim( String args[] ) {
     if(args.length % 4 == 2 ||args.length % 4 == 3 || args.length == 0 || args.length ==1)
@@ -168,6 +171,7 @@ public class SoccerSim{
    *  Method to update the position and velocities of each ball due to passing time
    */
   public static void simUpdate(){
+    numOfIterations ++;
     for (int i =0;i<soccerBalls.length ; i++ ) {
       soccerBalls[i].move(timeSlice);
       soccerBalls[i].setOutOfBounds(-75,75,-175,175);
