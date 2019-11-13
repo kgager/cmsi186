@@ -33,6 +33,8 @@ public class Riemann{
   private static int awayFromEnd =1;
   private static double[] arr;
   private static String equation;
+  private static double xValue;
+  private static boolean firstTimeGettingXvalue=true;
 
   /**
    *  Main method
@@ -43,15 +45,15 @@ public class Riemann{
     System.out.println("\n Welcome to Riemann! \n");
     System.out.println("This program simulates a Riemann sum approximation");
     handleIntialArgs(args);
-    System.out.println("Got here, percentage= "+percentage+", currentPercentage= "+currentPercentage);
     while(percentage>currentPercentage)
     {
-
+      firstTimeGettingXvalue =true;
       numOfRectangles++;
       prevRieVal = curRieVal;
       curRieVal = 0;
       calculateArea(args);
       currentPercentage = Math.abs( (curRieVal-prevRieVal)/prevRieVal );
+      System.out.println(" * "+curRieVal);
     }
     System.out.println("The area of "+equation+" from "+lowerBound+ " to "+upperBound+" is "+curRieVal);
     }
@@ -75,18 +77,16 @@ public class Riemann{
         throw new IllegalArgumentException("Make middle terms valid numbers");
       }
     }
-    // System.out.println("Arr valus: ");
-    // for (int i=0;i<arr.length ;i++ ) {
-    //   System.out.print(arr[i]+" ,");
-    // }
+
   }
 
   public static void calculatePolynomial(String[] args){
     System.out.println("Validating poly...");
     rectangleWidth = findRectangleWidth();
     for (int i=0;i<numOfRectangles;i++ ) {
+      xValue = getXvalue(rectangleWidth);
       for (int j=0;j<arr.length ;j++ ) {
-        curRieVal += arr[0]*Math.pow(rectangleWidth,j);
+        curRieVal += arr[0]*Math.pow(xValue,j);
       }
     }
 
@@ -230,7 +230,20 @@ public class Riemann{
     return (range/numOfRectangles);
   }
 
-
+  private static double getXvalue(double rw){
+    double answ = 0;
+    if(firstTimeGettingXvalue)
+    {
+      answ = lowerBound + rw/2;
+      firstTimeGettingXvalue =false;
+      // System.out.println("got here (= , answ = "+answ);
+    }
+    else{
+      answ+= rw;
+      // System.out.println("went here instead )=");
+    }
+    return answ;
+  }
 
 
 }
