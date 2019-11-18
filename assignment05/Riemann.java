@@ -93,7 +93,12 @@ public class Riemann{
   }
 
   public static void calculateSin(String[] args){
-    System.out.println("Validating sin... write code here");
+    System.out.println("Validating sin... ");
+    rectangleWidth = findRectangleWidth();
+    for (int i=0;i<numOfRectangles;i++ ) {
+      xValue = getXvalue(rectangleWidth);
+      curRieVal += rectangleWidth * Math.sin(xValue);
+      }
 
     }
 
