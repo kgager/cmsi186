@@ -86,7 +86,7 @@ public class Riemann{
     for (int i=0;i<numOfRectangles;i++ ) {
       xValue = getXvalue(rectangleWidth);
       for (int j=0;j<arr.length ;j++ ) {
-        curRieVal += arr[0]*Math.pow(xValue,j);
+        curRieVal += xValue*Math.pow(arr[0],j);
       }
     }
 
