@@ -22,10 +22,9 @@ import java.io.IOException;
 public class Riemann{
   public static double curRieVal=0;
   public static double prevRieVal=0;
-  public static double DEFAULT_PERCENTAGE = 1;
+  public static double DEFAULT_PERCENTAGE = .01;
   public static double lowerBound;
   public static double upperBound;
-  private static BufferedReader input = new BufferedReader( new InputStreamReader(System.in));
   private static int numOfRectangles =0;
   private static double rectangleWidth;
   private static double percentage;
@@ -45,15 +44,19 @@ public class Riemann{
     System.out.println("\n Welcome to Riemann! \n");
     System.out.println("This program simulates a Riemann sum approximation");
     handleIntialArgs(args);
-    while(percentage>currentPercentage)
+    double pDiff =0;
+    double vDiff =0;
+    while(currentPercentage>percentage || numOfRectangles < 3)
     {
       firstTimeGettingXvalue =true;
       numOfRectangles++;
+      vDiff = curRieVal-prevRieVal;
       prevRieVal = curRieVal;
+      currentPercentage= vDiff/curRieVal;
       curRieVal = 0;
       calculateArea(args);
-      currentPercentage = Math.abs( (curRieVal-prevRieVal)/prevRieVal );
-      System.out.println(" * "+curRieVal);
+      System.out.println("currentPercentage= "+currentPercentage+", percentage= "+percentage);
+      System.out.println("percentage-currentPercentage= "+pDiff);
     }
     System.out.println("The area of "+equation+" from "+lowerBound+ " to "+upperBound+" is "+curRieVal);
     }
@@ -81,28 +84,32 @@ public class Riemann{
   }
 
   public static void calculatePolynomial(String[] args){
-    System.out.println("Validating poly...");
     rectangleWidth = findRectangleWidth();
+    curRieVal =0;
     for (int i=0;i<numOfRectangles;i++ ) {
-      xValue = getXvalue(rectangleWidth);
+      xValue = getMidpoint(rectangleWidth);
       for (int j=0;j<arr.length ;j++ ) {
         if(j!=0)
         {
-            curRieVal += rectangleWidth* xValue*Math.pow(arr[j],j);
+            curRieVal += rectangleWidth*arr[j]*Math.pow(xValue,j);
+          //  System.out.println("tAns: "+ curRieVal+", rw="+rectangleWidth+", j= "+j+", arr[j]= "+arr[j]+", xValue= "+xValue+ ", RW*M.pow(arr[j],j)=" + rectangleWidth*Math.pow(arr[j],j));
         }
         else{
           curRieVal += rectangleWidth* arr[j];
         }
       }
-    }
+        System.out.println("* "+ curRieVal);
 
-  }
+        // curRieVal += curRieVal;
+    }
+    System.out.println("\n    -     curRieVal= "+curRieVal+"\n");
+    }
 
   public static void calculateSin(String[] args){
     System.out.println("Validating sin... ");
     rectangleWidth = findRectangleWidth();
     for (int i=0;i<numOfRectangles;i++ ) {
-      xValue = getXvalue(rectangleWidth);
+      xValue = getMidpoint(rectangleWidth);
       curRieVal += rectangleWidth * Math.sin(xValue);
       }
 
@@ -193,7 +200,7 @@ public class Riemann{
             }
 
           }
-          System.out.println("this simulation is approximating a polynomial");
+          // System.out.println("this simulation is approximating a polynomial");
           calculatePolynomial(args);
         }
         else if(args[0].equals("sin"))
@@ -241,8 +248,8 @@ public class Riemann{
     return (range/numOfRectangles);
   }
 
-  private static double getXvalue(double rw){
-    double answ = 0;
+  private static double getMidpoint(double rw){
+    double answ = xValue;
     if(firstTimeGettingXvalue)
     {
       answ = lowerBound + rw/2;
