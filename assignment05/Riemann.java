@@ -5,15 +5,21 @@
  *  @author       :  Kevin Gager
  *  Date written  :  2019-10-31
  *  Description   :  This class provides a bunch of methods for Homework 5
- *  Exceptions    :  IllegalArgumentException when the input arguments are not doubles
-                     NumberFormatException when the input arguments not the right amount, or result in the
- *                   balls overlapping initially or being initially out of bounds.
+ *  Exceptions    :   IllegalArgumentException
+ *                            When no arguments are given
+ *                            When less than 3 arguments are given when a string of "list" is not the first argument
+ *                            When the user inputs a nondouble lowerBound
+ *                            When the user inputs a nondouble upperBound
+ *                            When the user inputs a lowerbound that is greater than the upperbound
+ *                            When the user does not input a valid function that this prgoram recognizes
+ *                    NumberFormatException
+ *                            When the middle terms are not doubles
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  *  Revision History
  *  ---------------
  *            Rev      Date     Modified by:  Reason for change/modification
  *           -----  ----------  ------------  -----------------------------------------------------------
- *  @version 1.0.0  2019-10-31  Kevin Gager  Initial writing and release
+ *  @version 1.0.0  2019-11-17  Kevin Gager  Initial writing and release
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -69,7 +75,8 @@ public class Riemann{
 
     /**
      *  Method to handle all the input arguments from the command line
-     *  Checks to see if the right amount or arguments are inputted
+     *  Checks to see if there are less than 3 arguments
+     *  Calls the setBounds() method
      *  Checks to see if all arguments between the first and end are doubles
      *  Checks to see if the first argument is a string
      *  Checks to see if initial arguments result in the balls overlapping initially or being initially out of bounds
@@ -79,7 +86,10 @@ public class Riemann{
      *        Else, makes percentage the default value
      *  this sets up the variables for the simulation
      * @throws      IllegalArgumentException
+     *                  When no arguments are given
+     *                  When less than 3 arguments are given when a string of "list" is not the first argument
      *              NumberFormatException
+     *                  When the middle terms are not doubles
      */
   public static void handleIntialArgs( String[] args) {
     percentage = DEFAULT_PERCENTAGE;
@@ -118,6 +128,10 @@ public class Riemann{
    }
   }
 
+  /**
+     *  Method to approximate an immigration of a polynomial function
+     *  where args[1] … args[k] specify the coefficients of the x0 … xk terms of the polynomial
+     */
   public static void calculatePolynomial(){
       for (int i=0;i<numOfRectangles;i++ )
       {
@@ -136,6 +150,9 @@ public class Riemann{
       }
     }
 
+/**
+   *  Method to approximate an immigration of a sine function
+   */
   public static void calculateSin(){
     for (int i=0;i<numOfRectangles;i++ )
     {
@@ -144,6 +161,9 @@ public class Riemann{
     }
   }
 
+  /**
+     *  Method to approximate an immigration of a cosine function
+     */
   public static void calculateCos(){
     for (int i=0;i<numOfRectangles;i++ )
     {
@@ -153,6 +173,9 @@ public class Riemann{
 
     }
 
+    /**
+       *  Method to approximate an immigration of a tangent function
+       */
   public static void calculateTan(){
     for (int i=0;i<numOfRectangles;i++ )
     {
@@ -162,6 +185,9 @@ public class Riemann{
 
     }
 
+    /**
+       *  Method to approximate an immigration of a arc sine function
+       */
     public static void calculateASin(){
       for (int i=0;i<numOfRectangles;i++ )
       {
@@ -170,15 +196,20 @@ public class Riemann{
       }
     }
 
+    /**
+       *  Method to approximate an immigration of a arc cosine function
+       */
     public static void calculateACos(){
       for (int i=0;i<numOfRectangles;i++ )
       {
         xValue = getMidpoint(rectangleWidth);
         curRieVal += rectangleWidth * Math.acos(xValue);
       }
-
       }
 
+      /**
+         *  Method to approximate an immigration of a arc tangent function
+         */
     public static void calculateATan(){
       for (int i=0;i<numOfRectangles;i++ )
       {
@@ -188,6 +219,9 @@ public class Riemann{
 
       }
 
+      /**
+         *  Method to approximate an immigration of a base 10 logarithm function
+         */
   public static void calculateLog10(){
     for (int i=0;i<numOfRectangles;i++ )
     {
@@ -197,24 +231,31 @@ public class Riemann{
 
     }
 
+    /**
+       *  Method to approximate an immigration of a natural logarithm function
+       */
     public static void calculateLn(){
       for (int i=0;i<numOfRectangles;i++ )
       {
         xValue = getMidpoint(rectangleWidth);
         curRieVal += rectangleWidth * Math.log(xValue);
       }
-
       }
 
+      /**
+         *  Method to approximate an immigration of a function where Euler's number e is raised to the power of x
+         */
   public static void calculateExp(){
     for (int i=0;i<numOfRectangles;i++ )
     {
       xValue = getMidpoint(rectangleWidth);
       curRieVal += rectangleWidth * Math.exp(xValue);
     }
-
     }
 
+    /**
+       *  Method to approximate an immigration of a regular square root function
+       */
   public static void calculateSqrt(){
     for (int i=0;i<numOfRectangles;i++ )
     {
@@ -224,6 +265,15 @@ public class Riemann{
 
     }
 
+    /**
+        *  Method to set the bounds for the function the user wishes to integrate
+        *  @param String[] the array of user inputted arguments
+        * @throws      IllegalArgumentException
+        *                   When the user inputs a nondouble lowerBound
+        *                   When the user inputs a nondouble upperBound
+        *                   When the user inputs a lowerbound that is greater than the upperbound
+        *
+        */
   public static void setBounds(String[] args)
   {
     String lastArg = args[args.length-awayFromEnd];
@@ -265,6 +315,13 @@ public class Riemann{
     }
   }
 
+  /**
+     *  Method to determine which method should be called to calculate the integration
+     *  makes the string variable equation equal to the equation of the line the user wishes to integrate
+     * @param String[] the array of user inputted arguments
+     * @throws      IllegalArgumentException
+     *                    When the user does not input a valid function that this prgoram recognizes
+     */
   private static void calculateArea(String[] args){
     try{
         if(args[0].equals("poly"))
@@ -344,11 +401,20 @@ public class Riemann{
       }
   }
 
+  /**
+       *  Method to determine the length of each rectangle in the riemann approximation
+       *  @return double-precision value of the rectangle width
+       */
   private static double findRectangleWidth(){
     double range = upperBound -lowerBound;
     return (range/numOfRectangles);
   }
 
+  /**
+     *  Method to the current x-value for the approximation
+     *  @param double the value of the rectangle width
+     *  @return double-precision value of the xValue
+     */
   private static double getMidpoint(double rw){
     double answ = xValue;
     if(firstTimeGettingXvalue)
@@ -362,6 +428,10 @@ public class Riemann{
     return answ;
   }
 
+  /**
+       *  Method to show the user all available functions known by this program
+       *  prints the name of each function and a brief Description to the console
+       */
   public static void showList()
   {
     System.out.println("Available Functions--- \n");
