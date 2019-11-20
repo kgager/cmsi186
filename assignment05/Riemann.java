@@ -34,6 +34,7 @@ public class Riemann{
   private static String equation;
   private static double xValue;
   private static boolean firstTimeGettingXvalue=true;
+  public static boolean displayList = false;
 
   /**
    *  Main method
@@ -43,27 +44,41 @@ public class Riemann{
     String inputLine = "";
     System.out.println("\n Welcome to Riemann! \n");
     System.out.println("This program simulates a Riemann sum approximation");
+    System.out.println("To see list of available functions run this program with List as the first argument\n");
     handleIntialArgs(args);
-    double pDiff =0;
-    double vDiff =0;
-    while(currentPercentage>percentage || numOfRectangles < 3)
+    if(!displayList)
     {
-      firstTimeGettingXvalue =true;
-      numOfRectangles++;
-      vDiff = curRieVal-prevRieVal;
-      prevRieVal = curRieVal;
-      currentPercentage= vDiff/curRieVal;
-      curRieVal = 0;
-      calculateArea(args);
-      System.out.println("currentPercentage= "+currentPercentage+", percentage= "+percentage);
-      System.out.println("percentage-currentPercentage= "+pDiff);
+      double pDiff =0;
+      double vDiff =0;
+      while(currentPercentage>percentage || numOfRectangles < 3)
+      {
+        firstTimeGettingXvalue =true;
+        numOfRectangles++;
+        vDiff = curRieVal-prevRieVal;
+        prevRieVal = curRieVal;
+        currentPercentage= vDiff/curRieVal;
+        curRieVal = 0;
+        calculateArea(args);
+        //System.out.println("currentPercentage= "+currentPercentage+", percentage= "+percentage);
+        //System.out.println("percentage-currentPercentage= "+pDiff);
+      }
+      System.out.println("The area of "+equation+" from "+lowerBound+ " to "+upperBound+" is "+curRieVal);
+      System.out.println("The equation was approximated using "+numOfRectangles+" rectangles");
     }
-    System.out.println("The area of "+equation+" from "+lowerBound+ " to "+upperBound+" is "+curRieVal);
+
     }
 
 
   public static void handleIntialArgs( String[] args) {
     percentage = DEFAULT_PERCENTAGE;
+    try{
+        if(args[0].equals("list"))
+        {
+          showList();
+          displayList = true;
+        }
+        else{
+
     if(args.length <3)
     {
       throw new IllegalArgumentException("Please enter atleast three arguments");
@@ -80,65 +95,120 @@ public class Riemann{
         throw new IllegalArgumentException("Make middle terms valid numbers");
       }
     }
-
+   }
+ }
+catch(NumberFormatException nfe){
+   System.out.println("Please enter the first argument as a string");
+   System.exit(5);
+ }
   }
 
   public static void calculatePolynomial(String[] args){
-    rectangleWidth = findRectangleWidth();
-    curRieVal =0;
-    for (int i=0;i<numOfRectangles;i++ ) {
-      xValue = getMidpoint(rectangleWidth);
-      for (int j=0;j<arr.length ;j++ ) {
-        if(j!=0)
-        {
-            curRieVal += rectangleWidth*arr[j]*Math.pow(xValue,j);
-          //  System.out.println("tAns: "+ curRieVal+", rw="+rectangleWidth+", j= "+j+", arr[j]= "+arr[j]+", xValue= "+xValue+ ", RW*M.pow(arr[j],j)=" + rectangleWidth*Math.pow(arr[j],j));
-        }
-        else{
-          curRieVal += rectangleWidth* arr[j];
-        }
+      for (int i=0;i<numOfRectangles;i++ )
+      {
+         xValue = getMidpoint(rectangleWidth);
+         for (int j=0;j<arr.length ;j++ )
+         {
+            if(j!=0)
+            {
+               curRieVal += rectangleWidth*arr[j]*Math.pow(xValue,j);
+               //  System.out.println("tAns: "+ curRieVal+", rw="+rectangleWidth+", j= "+j+", arr[j]= "+arr[j]+", xValue= "+xValue+ ", RW*M.pow(arr[j],j)=" + rectangleWidth*Math.pow(arr[j],j));
+            }
+            else
+            {
+                curRieVal += rectangleWidth* arr[j];
+            }
+         }
+        // System.out.println("* "+ curRieVal);
       }
-        System.out.println("* "+ curRieVal);
-
-        // curRieVal += curRieVal;
-    }
-    System.out.println("\n    -     curRieVal= "+curRieVal+"\n");
+  //  System.out.println("\n    -     curRieVal= "+curRieVal+"\n");
     }
 
   public static void calculateSin(String[] args){
-    System.out.println("Validating sin... ");
-    rectangleWidth = findRectangleWidth();
-    for (int i=0;i<numOfRectangles;i++ ) {
+    for (int i=0;i<numOfRectangles;i++ )
+    {
       xValue = getMidpoint(rectangleWidth);
       curRieVal += rectangleWidth * Math.sin(xValue);
-      }
-
     }
-
-
+  }
 
   public static void calculateCos(String[] args){
-    System.out.println("Validating cos... write code here");
+    for (int i=0;i<numOfRectangles;i++ )
+    {
+      xValue = getMidpoint(rectangleWidth);
+      curRieVal += rectangleWidth * Math.cos(xValue);
+    }
 
     }
 
   public static void calculateTan(String[] args){
-    System.out.println("Validating tan... write code here");
+    for (int i=0;i<numOfRectangles;i++ )
+    {
+      xValue = getMidpoint(rectangleWidth);
+      curRieVal += rectangleWidth * Math.atan(xValue);
+    }
 
     }
 
-  public static void calculateLog(String[] args){
-    System.out.println("Validating log... write code here");
+    public static void calculateASin(String[] args){
+      for (int i=0;i<numOfRectangles;i++ )
+      {
+        xValue = getMidpoint(rectangleWidth);
+        curRieVal += rectangleWidth * Math.asin(xValue);
+      }
+    }
+
+    public static void calculateACos(String[] args){
+      for (int i=0;i<numOfRectangles;i++ )
+      {
+        xValue = getMidpoint(rectangleWidth);
+        curRieVal += rectangleWidth * Math.acos(xValue);
+      }
+
+      }
+
+    public static void calculateATan(String[] args){
+      for (int i=0;i<numOfRectangles;i++ )
+      {
+        xValue = getMidpoint(rectangleWidth);
+        curRieVal += rectangleWidth * Math.tan(xValue);
+      }
+
+      }
+
+  public static void calculateLog10(String[] args){
+    for (int i=0;i<numOfRectangles;i++ )
+    {
+      xValue = getMidpoint(rectangleWidth);
+      curRieVal += rectangleWidth * Math.log10(xValue);
+    }
 
     }
+
+    public static void calculateLn(String[] args){
+      for (int i=0;i<numOfRectangles;i++ )
+      {
+        xValue = getMidpoint(rectangleWidth);
+        curRieVal += rectangleWidth * Math.log(xValue);
+      }
+
+      }
 
   public static void calculateExp(String[] args){
-    System.out.println("Validating Exp... write code here");
+    for (int i=0;i<numOfRectangles;i++ )
+    {
+      xValue = getMidpoint(rectangleWidth);
+      curRieVal += rectangleWidth * Math.exp(xValue);
+    }
 
     }
 
   public static void calculateSqrt(String[] args){
-    System.out.println("Validating sqrt... write code here");
+    for (int i=0;i<numOfRectangles;i++ )
+    {
+      xValue = getMidpoint(rectangleWidth);
+      curRieVal += rectangleWidth * Math.sqrt(xValue);
+    }
 
     }
 
@@ -205,33 +275,53 @@ public class Riemann{
         }
         else if(args[0].equals("sin"))
         {
-          System.out.println("this simulation is doing a sine function");
+          equation = "y = sin x";
           calculateSin(args);
         }
         else if(args[0].equals("cos"))
         {
-          System.out.println("this simulation is doing a cosine function");
+          equation = "y = cos x";
           calculateCos(args);
         }
         else if(args[0].equals("tan"))
         {
-          System.out.println("this simulation is doing a tangent function");
+          equation = "y = tan x";
           calculateTan(args);
         }
-        else if(args[0].equals("log"))
+        else if(args[0].equals("log10"))
         {
-          System.out.println("this simulation is doing a log function");
-          calculateLog(args);
+          equation = "y = log10 x";
+          calculateLog10(args);
+        }
+        else if(args[0].equals("ln"))
+        {
+          equation = "y = ln x";
+          calculateLn(args);
         }
         else if(args[0].equals("sqrt"))
         {
-          System.out.println("this simulation is doing a sqrt function");
+          equation = "y = x^(1/2)";
           calculateSqrt(args);
         }
         else if(args[0].equals("exp"))
         {
-          System.out.println("this simulation is doing a exp function");
+          equation = "y = e^x";
           calculateExp(args);
+        }
+        else if(args[0].equals("asin"))
+        {
+          equation = "y = arcsin x";
+          calculateASin(args);
+        }
+        else if(args[0].equals("acos"))
+        {
+          equation = "y = arccos x";
+          calculateACos(args);
+        }
+        else if(args[0].equals("atan"))
+        {
+          equation = "y = arctan x";
+          calculateATan(args);
         }
         else{
           throw new IllegalArgumentException("Sorry, but "+args[0]+" is not a valid function for this program");
@@ -263,5 +353,22 @@ public class Riemann{
     return answ;
   }
 
+  public static void showList()
+  {
+    System.out.println("Available Functions: \n");
+    System.out.println("Poly  ---");
+    System.out.println("Sin   ---");
+    System.out.println("Cos   ---");
+    System.out.println("Tan   ---");
+    System.out.println("Asin  ---");
+    System.out.println("Acos  ---");
+    System.out.println("Atan  ---");
+    System.out.println("Ln    ---");
+    System.out.println("Log10 ---");
+    System.out.println("Exp   ---");
+    System.out.println("Sqrt  ---");
+
+
+  }
 
 }
