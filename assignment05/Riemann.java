@@ -58,9 +58,8 @@ public class Riemann{
         prevRieVal = curRieVal;
         currentPercentage= vDiff/curRieVal;
         curRieVal = 0;
+        rectangleWidth = findRectangleWidth();
         calculateArea(args);
-        //System.out.println("currentPercentage= "+currentPercentage+", percentage= "+percentage);
-        //System.out.println("percentage-currentPercentage= "+pDiff);
       }
       System.out.println("The area of "+equation+" from "+lowerBound+ " to "+upperBound+" is "+curRieVal);
       System.out.println("The equation was approximated using "+numOfRectangles+" rectangles");
@@ -68,9 +67,25 @@ public class Riemann{
 
     }
 
-
+    /**
+     *  Method to handle all the input arguments from the command line
+     *  Checks to see if the right amount or arguments are inputted
+     *  Checks to see if all arguments between the first and end are doubles
+     *  Checks to see if the first argument is a string
+     *  Checks to see if initial arguments result in the balls overlapping initially or being initially out of bounds
+     *  Makes each set of four arguments into a ball for the Simulation
+     *  Checks to see if the last argument is a Percentage
+     *        If so, the method changes the percentage to the inputted value
+     *        Else, makes percentage the default value
+     *  this sets up the variables for the simulation
+     * @throws      IllegalArgumentException
+     *              NumberFormatException
+     */
   public static void handleIntialArgs( String[] args) {
     percentage = DEFAULT_PERCENTAGE;
+    if(args.length == 0){
+      throw new IllegalArgumentException("Please enter arguments");
+    }
     try{
         if(args[0].equals("list"))
         {
@@ -95,15 +110,15 @@ public class Riemann{
         throw new IllegalArgumentException("Make middle terms valid numbers");
       }
     }
+    }
    }
- }
-catch(NumberFormatException nfe){
-   System.out.println("Please enter the first argument as a string");
-   System.exit(5);
- }
+   catch(NumberFormatException nfe){
+    System.out.println("Please enter the first argument as a string");
+    System.exit(5);
+   }
   }
 
-  public static void calculatePolynomial(String[] args){
+  public static void calculatePolynomial(){
       for (int i=0;i<numOfRectangles;i++ )
       {
          xValue = getMidpoint(rectangleWidth);
@@ -112,19 +127,16 @@ catch(NumberFormatException nfe){
             if(j!=0)
             {
                curRieVal += rectangleWidth*arr[j]*Math.pow(xValue,j);
-               //  System.out.println("tAns: "+ curRieVal+", rw="+rectangleWidth+", j= "+j+", arr[j]= "+arr[j]+", xValue= "+xValue+ ", RW*M.pow(arr[j],j)=" + rectangleWidth*Math.pow(arr[j],j));
             }
             else
             {
                 curRieVal += rectangleWidth* arr[j];
             }
          }
-        // System.out.println("* "+ curRieVal);
       }
-  //  System.out.println("\n    -     curRieVal= "+curRieVal+"\n");
     }
 
-  public static void calculateSin(String[] args){
+  public static void calculateSin(){
     for (int i=0;i<numOfRectangles;i++ )
     {
       xValue = getMidpoint(rectangleWidth);
@@ -132,7 +144,7 @@ catch(NumberFormatException nfe){
     }
   }
 
-  public static void calculateCos(String[] args){
+  public static void calculateCos(){
     for (int i=0;i<numOfRectangles;i++ )
     {
       xValue = getMidpoint(rectangleWidth);
@@ -141,7 +153,7 @@ catch(NumberFormatException nfe){
 
     }
 
-  public static void calculateTan(String[] args){
+  public static void calculateTan(){
     for (int i=0;i<numOfRectangles;i++ )
     {
       xValue = getMidpoint(rectangleWidth);
@@ -150,7 +162,7 @@ catch(NumberFormatException nfe){
 
     }
 
-    public static void calculateASin(String[] args){
+    public static void calculateASin(){
       for (int i=0;i<numOfRectangles;i++ )
       {
         xValue = getMidpoint(rectangleWidth);
@@ -158,7 +170,7 @@ catch(NumberFormatException nfe){
       }
     }
 
-    public static void calculateACos(String[] args){
+    public static void calculateACos(){
       for (int i=0;i<numOfRectangles;i++ )
       {
         xValue = getMidpoint(rectangleWidth);
@@ -167,7 +179,7 @@ catch(NumberFormatException nfe){
 
       }
 
-    public static void calculateATan(String[] args){
+    public static void calculateATan(){
       for (int i=0;i<numOfRectangles;i++ )
       {
         xValue = getMidpoint(rectangleWidth);
@@ -176,7 +188,7 @@ catch(NumberFormatException nfe){
 
       }
 
-  public static void calculateLog10(String[] args){
+  public static void calculateLog10(){
     for (int i=0;i<numOfRectangles;i++ )
     {
       xValue = getMidpoint(rectangleWidth);
@@ -185,7 +197,7 @@ catch(NumberFormatException nfe){
 
     }
 
-    public static void calculateLn(String[] args){
+    public static void calculateLn(){
       for (int i=0;i<numOfRectangles;i++ )
       {
         xValue = getMidpoint(rectangleWidth);
@@ -194,7 +206,7 @@ catch(NumberFormatException nfe){
 
       }
 
-  public static void calculateExp(String[] args){
+  public static void calculateExp(){
     for (int i=0;i<numOfRectangles;i++ )
     {
       xValue = getMidpoint(rectangleWidth);
@@ -203,7 +215,7 @@ catch(NumberFormatException nfe){
 
     }
 
-  public static void calculateSqrt(String[] args){
+  public static void calculateSqrt(){
     for (int i=0;i<numOfRectangles;i++ )
     {
       xValue = getMidpoint(rectangleWidth);
@@ -270,58 +282,57 @@ catch(NumberFormatException nfe){
             }
 
           }
-          // System.out.println("this simulation is approximating a polynomial");
-          calculatePolynomial(args);
+          calculatePolynomial();
         }
         else if(args[0].equals("sin"))
         {
           equation = "y = sin x";
-          calculateSin(args);
+          calculateSin();
         }
         else if(args[0].equals("cos"))
         {
           equation = "y = cos x";
-          calculateCos(args);
+          calculateCos();
         }
         else if(args[0].equals("tan"))
         {
           equation = "y = tan x";
-          calculateTan(args);
+          calculateTan();
         }
         else if(args[0].equals("log10"))
         {
           equation = "y = log10 x";
-          calculateLog10(args);
+          calculateLog10();
         }
         else if(args[0].equals("ln"))
         {
           equation = "y = ln x";
-          calculateLn(args);
+          calculateLn();
         }
         else if(args[0].equals("sqrt"))
         {
           equation = "y = x^(1/2)";
-          calculateSqrt(args);
+          calculateSqrt();
         }
         else if(args[0].equals("exp"))
         {
           equation = "y = e^x";
-          calculateExp(args);
+          calculateExp();
         }
         else if(args[0].equals("asin"))
         {
           equation = "y = arcsin x";
-          calculateASin(args);
+          calculateASin();
         }
         else if(args[0].equals("acos"))
         {
           equation = "y = arccos x";
-          calculateACos(args);
+          calculateACos();
         }
         else if(args[0].equals("atan"))
         {
           equation = "y = arctan x";
-          calculateATan(args);
+          calculateATan();
         }
         else{
           throw new IllegalArgumentException("Sorry, but "+args[0]+" is not a valid function for this program");
@@ -344,29 +355,28 @@ catch(NumberFormatException nfe){
     {
       answ = lowerBound + rw/2;
       firstTimeGettingXvalue =false;
-      // System.out.println("got here (= , answ = "+answ);
     }
     else{
       answ+= rw;
-      // System.out.println("went here instead )=");
     }
     return answ;
   }
 
   public static void showList()
   {
-    System.out.println("Available Functions: \n");
-    System.out.println("Poly  ---");
-    System.out.println("Sin   ---");
-    System.out.println("Cos   ---");
-    System.out.println("Tan   ---");
-    System.out.println("Asin  ---");
-    System.out.println("Acos  ---");
-    System.out.println("Atan  ---");
-    System.out.println("Ln    ---");
-    System.out.println("Log10 ---");
-    System.out.println("Exp   ---");
-    System.out.println("Sqrt  ---");
+    System.out.println("Available Functions--- \n");
+    System.out.println("Poly  : integrates a polynomial function where args[1] … args[k]");
+    System.out.println("        specify the coefficients of the x0 … xk terms of the polynomial");
+    System.out.println("Sin   : integrates the sine function");
+    System.out.println("Cos   : integrates the cosine function");
+    System.out.println("Tan   : integrates the tangent function");
+    System.out.println("Asin  : integrates the arc sine function");
+    System.out.println("Acos  : integrates the arc cosine function");
+    System.out.println("Atan  : integrates the arc tangent function");
+    System.out.println("Ln    : integrates the (natural) logarithm function");
+    System.out.println("Log10 : integrates the base 10 logarithm function");
+    System.out.println("Exp   : integrates the function of Euler's number e raised to the power of x");
+    System.out.println("Sqrt  : integrates the function of a rounded positive square root for x");
 
 
   }
