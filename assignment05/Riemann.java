@@ -180,7 +180,7 @@ public class Riemann{
     for (int i=0;i<numOfRectangles;i++ )
     {
       xValue = getMidpoint(rectangleWidth);
-      curRieVal += rectangleWidth * Math.atan(xValue);
+      curRieVal += rectangleWidth * Math.tan(xValue);
     }
 
     }
@@ -214,7 +214,7 @@ public class Riemann{
       for (int i=0;i<numOfRectangles;i++ )
       {
         xValue = getMidpoint(rectangleWidth);
-        curRieVal += rectangleWidth * Math.tan(xValue);
+        curRieVal += rectangleWidth * Math.atan(xValue);
       }
 
       }
