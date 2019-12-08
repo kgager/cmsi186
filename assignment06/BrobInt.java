@@ -2,7 +2,8 @@ import java.math.BigInteger;
 import java.io.BufferedReader;
 import java.util.Arrays;
 
-public class BrobInt {
+public class BrobInt
+{
   private byte[] a;
   private byte[] d2;
   public static final BrobInt ZERO     = new BrobInt(  "0" );      /// Constant for "zero"
@@ -27,6 +28,8 @@ public class BrobInt {
     /// These are the internal fields
      public  String internalValue = "";        // internal String representation of this BrobInt
      public  byte   sign          = 0;         // "0" is positive, "1" is negative
+     public boolean wentOver = false;
+     public boolean ableToGetOut = false;
     /// You can use this or not, as you see fit.  The explanation was provided in class
      private String reversed      = "";        // the backwards version of the internal String representation
     private static final boolean DEBUG_ON = false;
@@ -34,13 +37,30 @@ public class BrobInt {
 
     /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
      *  Method to validate that all the characters in the value are valid decimal digits
-     *  @return  boolean  true if all digits are good
      *  @throws  IllegalArgumentException if something is hinky
      *  note that there is no return false, because of throwing the exception
      *  note also that this must check for the '+' and '-' sign digits
      *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
-     public boolean validateDigits() throws IllegalArgumentException {
-        throw new UnsupportedOperationException( "\n         Sorry, that operation is not yet implemented." );
+     public void validateDigits(String value) throws IllegalArgumentException {
+       for(int i =0; i< value.length();i++)
+       {
+         if(i== 0)
+         {
+           if(value.charAt(i) != '+' &&value.charAt(i) != '-' && value.charAt(i) != '0' && value.charAt(i) != '1' && value.charAt(i) != '2' && value.charAt(i) != '3' && value.charAt(i) != '4' && value.charAt(i) != '5' && value.charAt(i) != '5' && value.charAt(i) != '6' && value.charAt(i) != '7' && value.charAt(i) != '8' && value.charAt(i) != '9')
+           {
+             throw new IllegalArgumentException("please make inputs valid numbers");
+           }
+         }
+         else
+         {
+           if(value.charAt(i) != '0' && value.charAt(i) != '1' && value.charAt(i) != '2' && value.charAt(i) != '3' && value.charAt(i) != '4' && value.charAt(i) != '5' && value.charAt(i) != '5' && value.charAt(i) != '6' && value.charAt(i) != '7' && value.charAt(i) != '8' && value.charAt(i) != '9')
+           {
+             System.out.println("invalid char = "+value.charAt(i));
+             throw new IllegalArgumentException("please make inputs valid numbers");
+           }
+         }
+       }
+
      }
 
 
@@ -53,6 +73,7 @@ public class BrobInt {
     *  @param  value  String value to make into a BrobInt
     */
     public BrobInt( String value ){
+      validateDigits(value);
       internalValue = value;
       StringBuffer sbf;
       if(value.charAt(0)=='-')
@@ -96,17 +117,21 @@ public class BrobInt {
     // returns a BrobInt whose value is the sum of this plus the argument
    public BrobInt add( BrobInt b )
    {
-     byte[] c = new byte[Math.max(a.length,b.length()+2)];
+     byte[] c = new byte[Math.max(a.length,b.length())+2];
      byte cary = 0;
      if(this.sign() == '+' && b.sign() == '-')
      {
-       return this.subtract(b);
+       BrobInt neg = new BrobInt("-1");
+       return this.subtract(b.multiply(neg));
+     }
+     if(this.sign() == '-' && b.sign() == '+')
+     {
+       return b.add(this);
      }
      for (int i=0;i<a.length ;i++ )
      {
        if(i<b.length())
        {
-         //System.out.println("got here, i = "+i+",a[i]= "+a[i]+", b[i]= "+b.valueAt(i));
          c[i]= a[i];
          c[i] += b.valueAt(i) + cary;
          if( (a[i] + b.valueAt(i) +cary) <10)
@@ -133,67 +158,92 @@ public class BrobInt {
            cary = 0;
          }
        }
+       else if(i+1 == a.length&& cary ==1)
+       {
+          c[i+1] = 1;
+          cary = 0;
+       }
      }
-
-
-
      String answ = "";
      if(this.sign()=='-' &&b.sign()== '-')
      {
        answ += '-';
      }
-     System.out.println("c= "+Arrays.toString(c));
      for (int i=0;i<c.length;i++ )
      {
        answ +=c[c.length-1-i];
-       System.out.println("ans= "+answ);
      }
-     System.out.println("answ= "+answ);
      BrobInt res = new BrobInt(answ);
      return removeLeadingZeros(res);
    }
 
    // returns a BrobInt whose value is the difference of this minus the argument
-   public BrobInt subtract( BrobInt b ){
-     byte[] c = new byte[Math.max(a.length,b.length()+2)];
+   public BrobInt subtract( BrobInt b )
+   {
+     byte[] c = new byte[Math.max(a.length,b.length()+3)];
      if(this.sign() == '+' && b.sign() == '-')
      {
-       BrobInt b2 = new BrobInt("-1");
-       return this.add(b.multiply(b2));
+       BrobInt neg = new BrobInt("-1");
+       return this.add(b.multiply(neg));
      }
-     if(a.length >= b.length())
+     if(this.sign() == '-' && b.sign() == '-')
      {
-       for(int i=0; i<a.length; i++)
+       BrobInt neg = new BrobInt("-1");
+       return this.add(b.multiply(neg));
+     }
+     if(this.compareTo(b)== -1)
+     {
+       BrobInt neg = new BrobInt("-1");
+       return neg.multiply(b.subtract(this));
+     }
+     for(int i=0; i<a.length; i++)
+     {
+       if(i<b.length())
        {
-         if(i<b.length())
+         c[i] = a[i];
+         if(c[i] < b.valueAt(i))
          {
-           c[i] = a[i];
-           if(c[i] <b.valueAt(i))
+           c[i]+=10;
+           int j=i+1;
+           if(a[j]==0)
            {
-             a[i+1] -=1;
-             c[i]+=10;
-           }
-            c[i] -= b.valueAt(i);
-         }
-         else
-         {
-           c[i] = a[i];
-         }
+             while(a[j] ==0 && !ableToGetOut)
+             {
+               a[j] =9;
+               j++;
+               if(j==a.length)
+               {
+                  break;
+               }
+               if(a[j]!=0)
+               {
+                  a[j] -= 1;
+                  ableToGetOut = true;
+               }
+              } //end of while loop
+            }//end of if(a[j] =0)
+            else
+            {
+              a[j] -= 1;
+            }
+          }
+          c[i] -= b.valueAt(i);
+        }
+       else
+       {
+         c[i] = a[i];
        }
      }
-
      String answ = "";
-     // if(this.sign()=='-'&& b.sign()=='-')
-     // {
-     //   answ += "-";
-     // }
-     System.out.println("c= "+Arrays.toString(c));
+     if(wentOver)
+     {
+       answ += "-";
+     }
      for (int i=0;i<c.length;i++ )
      {
        answ +=c[c.length-1-i];
-       System.out.println("ans= "+answ);
      }
-     System.out.println("answ= "+answ);
+
      BrobInt res = new BrobInt(answ);
      return removeLeadingZeros(res);
    }
@@ -218,7 +268,6 @@ public class BrobInt {
      {
        temp = c[i+j];
        c[i+j] = a[i]*b.valueAt(j)+carry+c[i+j];
-       System.out.println("i,j= "+i+","+j+", a[i]= "+a[i]+", b[j]= "+b.valueAt(j)+", c[i+j]= "+c[i] + ", prev c[i+j]= "+temp);
        if(c[i+j]>9)
        {
           c[i+j] = c[i+j]-10;
@@ -232,12 +281,10 @@ public class BrobInt {
     {
       answ += '-';
     }
-    System.out.println("c= "+Arrays.toString(c));
     for (int i=0;i<c.length;i++ )
      {
        answ += c[c.length-1-i];
      }
-     System.out.println("answ= "+answ);
      BrobInt res = new BrobInt(answ);
      return removeLeadingZeros(res);
    }
@@ -258,7 +305,6 @@ public class BrobInt {
        return ZERO;
      }
      int[] d3 = new int[d2.length];
-
      String answ = "";
      System.out.println("d3= "+Arrays.toString(d3));
      for (int i=0;i<d3.length;i++ )
@@ -271,8 +317,10 @@ public class BrobInt {
    }
 
    // returns a BrobInt whose value is the remainder of this divided by the argument
-   public BrobInt remainder( BrobInt b ){
-     return ZERO;
+   public BrobInt remainder( BrobInt b )
+   {
+     BrobInt c = this.divide(b);
+     return this.subtract(c);
    }
    // returns the decimal string represention of this BrobInt
    public String toString(){
@@ -354,10 +402,26 @@ public class BrobInt {
       if( returnString.charAt( index ) != '0' ) {
          return bint;
       }
-
+      String ZeroChecker ="";
+      for (int i =0;i<returnString.length() ;i++ )
+      {
+        if(i==0 && sign != null)
+        {
+          ZeroChecker += '-';
+        }
+        else
+        {
+          ZeroChecker += '0';
+        }
+      }
+      if(ZeroChecker.equals(returnString))
+      {
+        return ZERO;
+      }
       while( returnString.charAt( index ) == '0' ) {
          index++;
       }
+
       returnString = bint.toString().substring( index, bint.toString().length() );
       if( sign != null ) {
          returnString = sign.toString() + returnString;
