@@ -50,9 +50,16 @@ public class Riemann{
     String inputLine = "";
     System.out.println("\n Welcome to Riemann! \n");
     System.out.println("This program simulates a Riemann sum approximation");
-    System.out.println("To see list of available functions run this program with List as the first argument\n");
+    System.out.println("To see list of available functions run this program with List as the first argument");
+    System.out.println("To run tests of available functions run this program with Test as the first argument\n");
     handleIntialArgs(args);
     if(!displayList)
+    {
+      calcRiemann(args);
+    }
+    }
+
+    public static void calcRiemann(String[] args)
     {
       double pDiff =0;
       double vDiff =0;
@@ -69,8 +76,6 @@ public class Riemann{
       }
       System.out.println("The area of "+equation+" from "+lowerBound+ " to "+upperBound+" is "+curRieVal);
       System.out.println("The equation was approximated using "+numOfRectangles+" rectangles");
-    }
-
     }
 
     /**
@@ -101,6 +106,11 @@ public class Riemann{
         {
           showList();
           displayList = true;
+        }
+        else if(args[0].equals("test"))
+        {
+          runTests();
+          displayList =true;
         }
         else{
 
@@ -276,6 +286,7 @@ public class Riemann{
         */
   public static void setBounds(String[] args)
   {
+    awayFromEnd =1;
     String lastArg = args[args.length-awayFromEnd];
     if(lastArg.charAt(lastArg.length()-1)=='%')
     {
@@ -297,6 +308,7 @@ public class Riemann{
     }
     catch(NumberFormatException nfe)
     {
+      System.out.println("upperbound= "+args[args.length-awayFromEnd]);
       throw new IllegalArgumentException("Make the upper bound a valid number");
     }
     awayFromEnd ++;
@@ -447,8 +459,43 @@ public class Riemann{
     System.out.println("Log10 : integrates the base 10 logarithm function");
     System.out.println("Exp   : integrates the function of Euler's number e raised to the power of x");
     System.out.println("Sqrt  : integrates the function of a rounded positive square root for x");
+  }
 
-
+  /**
+       *  Method to show the user tests for all available functions known by this program
+       *  prints the result of 10 tests for each function to the console
+       */
+  public static void runTests()
+  {
+    String [] testArgs;
+    System.out.println("Running all tests--- \n");
+    System.out.println("Poly Tests  : ");
+    System.out.println("\nSin Tests   : ");
+        System.out.println( "\n    Taking integral of y=sin(X) from x=0 to x=1: " );
+        testArgs =new String[]{"sin","0","1"};
+        try{ System.out.println( "      expecting: 0\n        and got: " ); }
+        catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); } setBounds(testArgs);calcRiemann(testArgs);
+        System.out.println( "\n    Taking integral of y=sin(X) from x=-1 to x=0: " );
+        testArgs =new String[]{"sin","-1","1"};
+        try{ System.out.println( "      expecting: 579\n        and got: " ); }
+        catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); } setBounds(testArgs);calcRiemann(testArgs);
+        System.out.println( "\n    Taking integral of y=sin(X) from x=-1 to x=1: " );
+        testArgs =new String[]{"sin","-1","1"};
+        try{ System.out.println( "      expecting: 0\n        and got: " ); }
+        catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); } setBounds(testArgs);calcRiemann(testArgs);
+        System.out.println( "\n    Taking integral of y=sin(X) from x=0 to x=3.14: " );
+        testArgs =new String[]{"sin","0","3.14"};
+        try{ System.out.println( "      expecting: 0\n        and got: " ); }
+        catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); } setBounds(testArgs);calcRiemann(testArgs);
+    System.out.println("\nCos Tests   : ");
+    System.out.println("\nTan Tests   : ");
+    System.out.println("\nAsin Tests  : ");
+    System.out.println("\nAcos Tests  : ");
+    System.out.println("\nAtan Tests  : ");
+    System.out.println("\nLn Tests    : ");
+    System.out.println("\nLog10 Tests : ");
+    System.out.println("\nExp Tests   : ");
+    System.out.println("\nSqrt Tests  : ");
   }
 
 }
