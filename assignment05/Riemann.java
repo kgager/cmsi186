@@ -59,8 +59,14 @@ public class Riemann{
     }
     }
 
+    /**
+     *  calculates Riemann
+     *  prints result to user
+     */
     public static void calcRiemann(String[] args)
     {
+      currentPercentage =0;
+      numOfRectangles= 0;
       double pDiff =0;
       double vDiff =0;
       while(currentPercentage>percentage || numOfRectangles < 3)
@@ -73,6 +79,7 @@ public class Riemann{
         curRieVal = 0;
         rectangleWidth = findRectangleWidth();
         calculateArea(args);
+        System.out.println("Approximation with "+numOfRectangles+" rectangles yields an area of "+curRieVal);
       }
       System.out.println("The area of "+equation+" from "+lowerBound+ " to "+upperBound+" is "+curRieVal);
       System.out.println("The equation was approximated using "+numOfRectangles+" rectangles");
@@ -470,32 +477,114 @@ public class Riemann{
     String [] testArgs;
     System.out.println("Running all tests--- \n");
     System.out.println("Poly Tests  : ");
+        System.out.println( "\n    Taking integral of y=1 from x=0 to x=1: " );
+        testArgs =new String[]{"poly","1","0","1"};
+        try{ System.out.println( "      expecting: 1\n " ); }
+        catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); } handleIntialArgs(testArgs);calcRiemann(testArgs);
+        System.out.println( "\n    Taking integral of y=1 from x=0 to x=5: " );
+        testArgs =new String[]{"poly","1","0", "2"};
+        try{ System.out.println( "      expecting: 5\n " ); }
+        catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); } handleIntialArgs(testArgs);calcRiemann(testArgs);
+        System.out.println( "\n    Taking integral of y=3 from x=1 to x=4: " );
+        testArgs =new String[]{"poly","3","1","4"};
+        try{ System.out.println( "      expecting: 9\n " ); }
+        catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); } handleIntialArgs(testArgs);calcRiemann(testArgs);
+        System.out.println( "\n    Taking integral of y=X from x=0 to x=1: " );
+        testArgs =new String[]{"poly","0","1","0","1"};
+        try{ System.out.println( "      expecting: .5\n " ); }
+        catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); } handleIntialArgs(testArgs); calcRiemann(testArgs);
+        System.out.println( "\n    Taking integral of y=2X from x=0 to x=3: " );
+        testArgs =new String[]{"poly","0","2","0","3"};
+        try{ System.out.println( "      expecting: 9\n " ); }
+        catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); } handleIntialArgs(testArgs);calcRiemann(testArgs);
+        System.out.println( "\n    Taking integral of y=3X+4 from x=2 to x=7: " );
+        testArgs =new String[]{"poly","4","3","2","7"};
+        try{ System.out.println( "      expecting: 87.5\n " ); }
+        catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); } handleIntialArgs(testArgs);calcRiemann(testArgs);
+        System.out.println( "\n    Taking integral of y=x^3 from x=0 to x=6: " );
+        testArgs =new String[]{"poly","0","0","1","0","6"};
+        try{ System.out.println( "      expecting: 324\n " ); }
+        catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); } handleIntialArgs(testArgs);calcRiemann(testArgs);
+        System.out.println( "\n    Taking integral of y=4x^3 -2x^2+7 from x=-2 to x=1: " );
+        testArgs =new String[]{"poly","7","-2","4","-2","1"};
+        try{ System.out.println( "      expecting: 9453.333\n " ); }
+        catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); } handleIntialArgs(testArgs); calcRiemann(testArgs);
+        System.out.println( "\n    Taking integral of y=x^4+x^3+x^2+x+1 from x=0 to x=10: " );
+        testArgs =new String[]{"poly","1","1","1","1","1","0","10"};
+        try{ System.out.println( "      expecting: 22893.333\n " ); }
+        catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); } handleIntialArgs(testArgs);calcRiemann(testArgs);
+        System.out.println( "\n    Taking integral of y=3x^2 from x=0 to x=50: " );
+        testArgs =new String[]{"poly","0","0","3","0","50"};
+        try{ System.out.println( "      expecting: 125000\n " ); }
+        catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); } handleIntialArgs(testArgs);calcRiemann(testArgs);
+        System.out.println( "\n    Taking integral of y=-7.3x^7+4x^6-x^5+2x^2-19x+20.2 from x=3.5 to x=18.7 " );
+        testArgs =new String[]{"poly","20.2","-19","2","0","0","-1","4","7.3","3.5","18.7"};
+        try{ System.out.println( "      expecting: -1.319e10\n " ); }
+        catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); } handleIntialArgs(testArgs);calcRiemann(testArgs);
+
+
     System.out.println("\nSin Tests   : ");
         System.out.println( "\n    Taking integral of y=sin(X) from x=0 to x=1: " );
         testArgs =new String[]{"sin","0","1"};
-        try{ System.out.println( "      expecting: 0\n        and got: " ); }
-        catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); } setBounds(testArgs);calcRiemann(testArgs);
+        try{ System.out.println( "      expecting: .45969\n " ); }
+        catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); } handleIntialArgs(testArgs);calcRiemann(testArgs);
         System.out.println( "\n    Taking integral of y=sin(X) from x=-1 to x=0: " );
-        testArgs =new String[]{"sin","-1","1"};
-        try{ System.out.println( "      expecting: 579\n        and got: " ); }
-        catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); } setBounds(testArgs);calcRiemann(testArgs);
+        testArgs =new String[]{"sin","-1","0"};
+        try{ System.out.println( "      expecting: -.45969\n " ); }
+        catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); } handleIntialArgs(testArgs);calcRiemann(testArgs);
         System.out.println( "\n    Taking integral of y=sin(X) from x=-1 to x=1: " );
         testArgs =new String[]{"sin","-1","1"};
-        try{ System.out.println( "      expecting: 0\n        and got: " ); }
-        catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); } setBounds(testArgs);calcRiemann(testArgs);
+        try{ System.out.println( "      expecting: 0\n " ); }
+        catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); } handleIntialArgs(testArgs);calcRiemann(testArgs);
         System.out.println( "\n    Taking integral of y=sin(X) from x=0 to x=3.14: " );
         testArgs =new String[]{"sin","0","3.14"};
-        try{ System.out.println( "      expecting: 0\n        and got: " ); }
-        catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); } setBounds(testArgs);calcRiemann(testArgs);
-    System.out.println("\nCos Tests   : ");
-    System.out.println("\nTan Tests   : ");
-    System.out.println("\nAsin Tests  : ");
-    System.out.println("\nAcos Tests  : ");
-    System.out.println("\nAtan Tests  : ");
-    System.out.println("\nLn Tests    : ");
-    System.out.println("\nLog10 Tests : ");
-    System.out.println("\nExp Tests   : ");
-    System.out.println("\nSqrt Tests  : ");
+        try{ System.out.println( "      expecting: 2\n " ); }
+        catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); } handleIntialArgs(testArgs); calcRiemann(testArgs);
+        System.out.println( "\n    Taking integral of y=sin(X) from x=-3.14 to x=0: " );
+        testArgs =new String[]{"sin","-3.14","0"};
+        try{ System.out.println( "      expecting: -2\n " ); }
+        catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); } handleIntialArgs(testArgs);calcRiemann(testArgs);
+        System.out.println( "\n    Taking integral of y=sin(X) from x=0 to x=6.28: " );
+        testArgs =new String[]{"sin","0","6.28"};
+        try{ System.out.println( "      expecting: 0\n " ); }
+        catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); } handleIntialArgs(testArgs);calcRiemann(testArgs);
+        System.out.println( "\n    Taking integral of y=sin(X) from x=3.14 to x=6.28: " );
+        testArgs =new String[]{"sin","3.14","6.28"};
+        try{ System.out.println( "      expecting: -2\n " ); }
+        catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); } handleIntialArgs(testArgs);calcRiemann(testArgs);
+        System.out.println( "\n    Taking integral of y=sin(X) from x=3.14 to x=6.28: " );
+        testArgs =new String[]{"sin","-6.28","3.14"};
+        try{ System.out.println( "      expecting: 2\n " ); }
+        catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); } handleIntialArgs(testArgs); calcRiemann(testArgs);
+        System.out.println( "\n    Taking integral of y=sin(X) from x=-6.28 to x=3.14: " );
+        testArgs =new String[]{"sin","-6.28","6.28"};
+        try{ System.out.println( "      expecting: 0\n " ); }
+        catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); } handleIntialArgs(testArgs);calcRiemann(testArgs);
+        System.out.println( "\n    Taking integral of y=sin(X) from x=-1 to x=0: " );
+        testArgs =new String[]{"sin","-1","2"};
+        try{ System.out.println( "      expecting: .956\n " ); }
+        catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); } handleIntialArgs(testArgs);calcRiemann(testArgs);
+        System.out.println( "\n    Taking integral of y=sin(X) from x=-1 to x=2: " );
+        testArgs =new String[]{"sin","0",".5"};
+        try{ System.out.println( "      expecting: .122\n " ); }
+        catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); } handleIntialArgs(testArgs);calcRiemann(testArgs);
+        System.out.println( "\n    Taking integral of y=sin(X) from x=0 to x=.5: " );
+        testArgs =new String[]{"sin","0",".1"};
+        try{ System.out.println( "      expecting: .004\n " ); }
+        catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); } handleIntialArgs(testArgs); calcRiemann(testArgs);
+        System.out.println( "\n    Taking integral of y=sin(X) from x=0 to x=.1: " );
+        testArgs =new String[]{"sin","0",".01"};
+        try{ System.out.println( "      expecting: 0.00004\n " ); }
+        catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); } handleIntialArgs(testArgs); calcRiemann(testArgs);
+    // System.out.println("\nCos Tests   : "); TBA
+    // System.out.println("\nTan Tests   : "); TBA
+    // System.out.println("\nAsin Tests  : "); TBA
+    // System.out.println("\nAcos Tests  : "); TBA
+    // System.out.println("\nAtan Tests  : "); TBA
+    // System.out.println("\nLn Tests    : "); TBA
+    // System.out.println("\nLog10 Tests : "); TBA
+    // System.out.println("\nExp Tests   : "); TBA
+    // System.out.println("\nSqrt Tests  : "); TBA
   }
 
 }
