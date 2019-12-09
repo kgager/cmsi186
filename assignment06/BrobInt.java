@@ -268,7 +268,7 @@ public class BrobInt
      {
        temp = c[i+j];
        c[i+j] = a[i]*b.valueAt(j)+carry+c[i+j];
-       if(c[i+j]>9)
+       while(c[i+j]>9)
        {
           c[i+j] = c[i+j]-10;
           c[i+j+1] +=1;
@@ -304,16 +304,49 @@ public class BrobInt
      {
        return ZERO;
      }
-     int[] d3 = new int[d2.length];
+     int[] quotient = new int[d2.length];
+     BrobInt divident = d1;
+     BrobInt currentDivisor;
+     String curDivisor = "";
+     int count =0;
+     for(int j= 0;j<divident.length();j++)
+     {
+       curDivisor += d2[quotient.length-1-j];
+     }
+     for(int i= 0; i< d2.length-divident.length()+1;i++)
+     {
+       currentDivisor = new BrobInt(curDivisor);
+       int c =0;
+       String cAsString = "";
+       BrobInt multiplier= ZERO;
+       while(currentDivisor.compareTo(multiplier.multiply(divident)) > -1)
+       {
+         c++;
+         cAsString = "";
+         cAsString += c;
+         multiplier = new BrobInt(cAsString);
+       }
+       c--;
+       cAsString = "";
+       cAsString += c;
+       multiplier = new BrobInt(cAsString);
+       quotient[i]= c; count++;
+       curDivisor ="";
+       curDivisor += currentDivisor.subtract(multiplier.multiply(divident)).toString();
+       if((d2.length-i-divident.length()-1)>-1)
+       {
+         curDivisor += d2[d2.length-i-divident.length()-1];
+       }
+     }
      String answ = "";
-     System.out.println("d3= "+Arrays.toString(d3));
-     for (int i=0;i<d3.length;i++ )
-      {
-        answ += d3[d3.length-1-i];
-      }
-      System.out.println("answ= "+answ);
-      BrobInt res = new BrobInt(answ);
-      return removeLeadingZeros(res);
+     for (int i=0;i<count;i++ )
+     {
+        answ += quotient[i];
+        System.out.println("put in i");
+     }
+     System.out.println("answ= "+answ);
+     BrobInt res = new BrobInt(answ);
+     return removeLeadingZeros(res);
    }
 
    // returns a BrobInt whose value is the remainder of this divided by the argument
@@ -336,20 +369,21 @@ public class BrobInt
    }
    // returns -1/0/1 as this BrobInt is numerically less than/equal to/greater than the value passed as the argument
    public int compareTo( BrobInt b ){
-     if(this.length() < b.length())
+     b= removeLeadingZeros(b);
+     if(removeLeadingZeros(this).length() < b.length())
      {
        return -1;
      }
-     if(this.length() > b.length())
+     if(removeLeadingZeros(this).length() > b.length())
      {
-       return 1;
+        return 1;
      }
-     for (int i=0;i<b.length() ;i++ ) {
-       if(this.valueAt(i) < b.valueAt(i))
+     for (int i=b.length()-1;i>-1 ;i-- ) {
+       if(removeLeadingZeros(this).valueAt(i) < b.valueAt(i))
        {
          return -1;
        }
-       if(this.valueAt(i) > b.valueAt(i))
+       if(removeLeadingZeros(this).valueAt(i) > b.valueAt(i))
        {
          return 1;
        }
