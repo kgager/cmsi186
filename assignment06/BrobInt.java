@@ -63,9 +63,6 @@ public class BrobInt
 
      }
 
-
-
-
    /**
     *  Constructor takes a string and assigns it to the internal storage, checks for a sign character
     *   and handles that accordingly;  it then checks to see if it's all valid digits, and reverses it
@@ -114,7 +111,11 @@ public class BrobInt
     }
 
 
-    // returns a BrobInt whose value is the sum of this plus the argument
+    /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  *  Method to add the value of a BrobIntk passed as argument to this BrobInt
+  *  @param  bint         BrobInt to add to this
+  *  @return BrobInt that is the sum of the value of this BrobInt and the one passed in
+  *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
    public BrobInt add( BrobInt b )
    {
      byte[] c = new byte[Math.max(a.length,b.length())+2];
@@ -177,7 +178,11 @@ public class BrobInt
      return removeLeadingZeros(res);
    }
 
-   // returns a BrobInt whose value is the difference of this minus the argument
+   /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   *  Method to subtract the value of a BrobIntk passed as argument to this BrobInt
+   *  @param  bint         BrobInt to subtract from this
+   *  @return BrobInt that is the difference of the value of this BrobInt and the one passed in
+   *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
    public BrobInt subtract( BrobInt b )
    {
      byte[] c = new byte[Math.max(a.length,b.length()+3)];
@@ -248,7 +253,11 @@ public class BrobInt
      return removeLeadingZeros(res);
    }
 
-   // returns a BrobInt whose b is the product of this times the argument
+   /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   *  Method to multiply the value of a BrobIntk passed as argument to this BrobInt
+   *  @param  bint         BrobInt to multiply this by
+   *  @return BrobInt that is the product of the value of this BrobInt and the one passed in
+   *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
    public BrobInt multiply( BrobInt b ){
    int carry=0;
    int[] c;
@@ -289,7 +298,11 @@ public class BrobInt
      return removeLeadingZeros(res);
    }
 
-   // returns a BrobInt whose value is the quotient of this divided by the argument
+   /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  *  Method to divide the value of this BrobIntk by the BrobInt passed as argument
+  *  @param  bint         BrobInt to divide this by
+  *  @return BrobInt that is the dividend of this BrobInt divided by the one passed in
+  *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
    public BrobInt divide( BrobInt d1 )
    {
      if(d1.equals(ZERO))
@@ -342,20 +355,26 @@ public class BrobInt
      for (int i=0;i<count;i++ )
      {
         answ += quotient[i];
-        System.out.println("put in i");
      }
-     System.out.println("answ= "+answ);
      BrobInt res = new BrobInt(answ);
      return removeLeadingZeros(res);
    }
 
-   // returns a BrobInt whose value is the remainder of this divided by the argument
+   /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   *  Method to get the remainder of division of this BrobInt by the one passed as argument
+   *  @param  bint         BrobInt to divide this one by
+   *  @return BrobInt that is the remainder of division of this BrobInt by the one passed in
+   *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
    public BrobInt remainder( BrobInt b )
    {
      BrobInt c = this.divide(b);
      return this.subtract(c);
    }
-   // returns the decimal string represention of this BrobInt
+
+   /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  *  Method to return a String representation of this BrobInt
+  *  @return String  which is the String representation of this BrobInt
+  *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
    public String toString(){
      String answ ="";
      if(this.sign() == '-')
@@ -367,7 +386,15 @@ public class BrobInt
      }
      return answ;
    }
-   // returns -1/0/1 as this BrobInt is numerically less than/equal to/greater than the value passed as the argument
+
+   /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  *  Method to compare a BrobInt passed as argument to this BrobInt
+  *  @param  bint  BrobInt to compare to this
+  *  @return int   that is one of neg/0/pos if this BrobInt precedes/equals/follows the argument
+  *  NOTE: this method does not do a lexicographical comparison using the java String "compareTo()" method
+  *        It takes into account the length of the two numbers, and if that isn't enough it does a
+  *        character by character comparison to determine
+  *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
    public int compareTo( BrobInt b ){
      b= removeLeadingZeros(b);
      if(removeLeadingZeros(this).length() < b.length())
@@ -390,7 +417,12 @@ public class BrobInt
      }
      return 0;
    }
-   // returns true iff x is a BrobInt whose value is numerically equal to this BrobInt
+
+   /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   *  Method to check if a BrobInt passed as argument is equal to this BrobInt
+   *  @param  bint     BrobInt to compare to this
+   *  @return boolean  that is true if they are equal and false otherwise
+   *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
    public boolean equals( BrobInt b  ){
      if(this.compareTo(b) != 0)
      {
@@ -398,15 +430,21 @@ public class BrobInt
      }
      return true;
    }
-   // a BrobInt "static factory" for constructing BrobInt out of longs
-   public static BrobInt valueOf( long b ){
-     return ZERO;
-   }
 
+   /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   *  Method to determine the length of the BrobInt
+   *  @return int  the length of the BrobInt
+   *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
    public int length(){
      return a.length;
    }
 
+   /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     *  Method to determine the sign of the BrobInt
+     *  @return char      determines if the BrobInt is positive or negative
+     *               +    when the BrobInt is positive
+     *               -    when the BrobInt is negative
+     *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
    public char sign(){
      if(sign == 1)
      {
@@ -415,6 +453,11 @@ public class BrobInt
      return '+';
    }
 
+   /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     *  Method to get a number in a BrobInt from a certain location passed as argument
+     *  @param  int     location of the desired number in the array
+     *  @return byte     the desired number
+     *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
    public byte valueAt(int location){
      return a[location];
    }
@@ -455,7 +498,6 @@ public class BrobInt
       while( returnString.charAt( index ) == '0' ) {
          index++;
       }
-
       returnString = bint.toString().substring( index, bint.toString().length() );
       if( sign != null ) {
          returnString = sign.toString() + returnString;
@@ -464,36 +506,221 @@ public class BrobInt
 
    }
 
+   /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      *  The main method contains tests for each method.
+      *  @param  args  String array which contains command line arguments
+      *  NOTE:  we don't really care about these, since we test the BrobInt class with the BrobIntTester
+      *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
    public static void main( String[] args ) {
     System.out.println( "\n  Hello, world, from the BrobInt program!!\n" );
-    System.out.println( "\n   You should run your tests from the BrobIntTester...\n" );
 
     BrobInt b1 = null;;
-    try { System.out.println( "   Making a new BrobInt: " ); b1 = new BrobInt( "147258369789456123" ); }
+    System.out.println("---------------------------Constructor Tests---------------------------");
+    try { System.out.println( "   Making a new BrobInt: " ); b1 = new BrobInt( "123" ); }
+    catch( Exception e ) { System.out.println( "        Exception thrown:  " ); }
+    try { System.out.println( "   expecting: 123\n     and got: " + b1.toString() ); }
+    catch( Exception e ) { System.out.println( "        Exception thrown:  " ); }
+    try { System.out.println( "\n   Making a new BrobInt: " ); b1 = new BrobInt( "805" ); }
+    catch( Exception e ) { System.out.println( "        Exception thrown:  " ); }
+    try { System.out.println( "   expecting: 805\n     and got: " + b1.toString() ); }
+    catch( Exception e ) { System.out.println( "        Exception thrown:  " ); }
+    try { System.out.println( "\n   Making a new BrobInt: " ); b1 = new BrobInt( "888888" ); }
+    catch( Exception e ) { System.out.println( "        Exception thrown:  " ); }
+    try { System.out.println( "   expecting: 888888\n     and got: " + b1.toString() ); }
+    catch( Exception e ) { System.out.println( "        Exception thrown:  " ); }
+    try { System.out.println( "\n   Making a new BrobInt: " ); b1 = new BrobInt( "000" ); }
+    catch( Exception e ) { System.out.println( "        Exception thrown:  " ); }
+    try { System.out.println( "   expecting: 000\n     and got: " + b1.toString() ); }
+    catch( Exception e ) { System.out.println( "        Exception thrown:  " ); }
+    try { System.out.println( "\n   Making a new BrobInt: " ); b1 = new BrobInt( "147258369789456123" ); }
     catch( Exception e ) { System.out.println( "        Exception thrown:  " ); }
     try { System.out.println( "   expecting: 147258369789456123\n     and got: " + b1.toString() ); }
     catch( Exception e ) { System.out.println( "        Exception thrown:  " ); }
+    try { System.out.println( "\n   Making a new BrobInt: " ); b1 = new BrobInt( "-70" ); }
+    catch( Exception e ) { System.out.println( "        Exception thrown:  " ); }
+    try { System.out.println( "   expecting: -70\n     and got: " + b1.toString() ); }
+    catch( Exception e ) { System.out.println( "        Exception thrown:  " ); }
+    try { System.out.println( "\n   Making a new BrobInt: " ); b1 = new BrobInt( "-898" ); }
+    catch( Exception e ) { System.out.println( "        Exception thrown:  " ); }
+    try { System.out.println( "   expecting: -898\n     and got: " + b1.toString() ); }
+    catch( Exception e ) { System.out.println( "        Exception thrown:  " ); }
+    try { System.out.println( "\n   Making a new BrobInt: " ); b1 = new BrobInt( "-97898" ); }
+    catch( Exception e ) { System.out.println( "        Exception thrown:  " ); }
+    try { System.out.println( "   expecting: -97898\n     and got: " + b1.toString() ); }
+    catch( Exception e ) { System.out.println( "        Exception thrown:  " ); }
+    try { System.out.println( "\n   Making a new BrobInt: " ); b1 = new BrobInt( "-0" ); }
+    catch( Exception e ) { System.out.println( "        Exception thrown:  " ); }
+    try { System.out.println( "   expecting: -0\n     and got: " + b1.toString() ); }
+    catch( Exception e ) { System.out.println( "        Exception thrown:  " ); }
+    try { System.out.println( "\n   Making a new BrobInt: " ); b1 = new BrobInt( "439578324695237" ); }
+    catch( Exception e ) { System.out.println( "        Exception thrown:  " ); }
+    try { System.out.println( "   expecting: 439578324695237\n     and got: " + b1.toString() ); }
+    catch( Exception e ) { System.out.println( "        Exception thrown:  " ); }
 
+System.out.println("---------------------------Addition Tests---------------------------");
+    System.out.println( "\n    Adding 1 by 1: " );
+    try { System.out.println( "      expecting: 579\n        and got: " + new BrobInt("1").add( new BrobInt("1") ) ); }
+    catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); }
+    System.out.println( "\n    Adding 2 by 3: " );
+    try { System.out.println( "      expecting: 579\n        and got: " + new BrobInt("2").add( new BrobInt("3") ) ); }
+    catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); }
+    System.out.println( "\n    Adding 4 by 7: " );
+    try { System.out.println( "      expecting: 579\n        and got: " + new BrobInt("4").add( new BrobInt("7") ) ); }
+    catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); }
+    System.out.println( "\n    Adding 18 by 29: " );
+    try { System.out.println( "      expecting: 579\n        and got: " + new BrobInt("18").add( new BrobInt("29") ) ); }
+    catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); }
     System.out.println( "\n    Adding 123 by 456: " );
-    try { System.out.println( "      expecting: 579\n        and got: " + new BrobInt("123").multiply( new BrobInt("456") ) ); }
+    try { System.out.println( "      expecting: 579\n        and got: " + new BrobInt("123").add( new BrobInt("456") ) ); }
+    catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); }
+    System.out.println( "\n    Adding 1 by -1: " );
+    try { System.out.println( "      expecting: 0\n        and got: " + new BrobInt("1").add( new BrobInt("-1") ) ); }
+    catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); }
+    System.out.println( "\n    Adding 792344 by 32499234: " );
+    try { System.out.println( "      expecting: 579\n        and got: " + new BrobInt("792344").add( new BrobInt("32499234") ) ); }
+    catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); }
+    System.out.println( "\n    Adding 98 by 0: " );
+    try { System.out.println( "      expecting: 98\n        and got: " + new BrobInt("98").add( new BrobInt("0") ) ); }
+    catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); }
+    System.out.println( "\n    Adding 98 by -0: " );
+    try { System.out.println( "      expecting: 98\n        and got: " + new BrobInt("98").add( new BrobInt("-0") ) ); }
+    catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); }
+    System.out.println( "\n    Adding 23482398 by -1231293: " );
+    try { System.out.println( "      expecting: 24713691\n        and got: " + new BrobInt("23482398").add( new BrobInt("-1231293") ) ); }
     catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); }
 
-    System.out.println( "\n    Multiplying 33 by 3: " );
-    try { System.out.println( "      expecting: 99\n        and got: " + new BrobInt("33").multiply( BrobInt.THREE ) ); }
-    catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); }
+System.out.println("---------------------------Subtraction Tests---------------------------");
+System.out.println( "\n    Subtracting 1 by 1: " );
+try { System.out.println( "      expecting: 0\n        and got: " + new BrobInt("1").subtract( new BrobInt("1") ) ); }
+catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); }
+System.out.println( "\n    Subtracting 3 by 2: " );
+try { System.out.println( "      expecting: 1\n        and got: " + new BrobInt("3").subtract( new BrobInt("2") ) ); }
+catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); }
+System.out.println( "\n    Subtracting 2 by 3: " );
+try { System.out.println( "      expecting: -1\n        and got: " + new BrobInt("2").subtract( new BrobInt("3") ) ); }
+catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); }
+System.out.println( "\n    Subtracting 4 by -2: " );
+try { System.out.println( "      expecting: 6\n        and got: " + new BrobInt("4").subtract( new BrobInt("-2") ) ); }
+catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); }
+System.out.println( "\n    Subtracting -7 by -8: " );
+try { System.out.println( "      expecting: 1\n        and got: " + new BrobInt("-7").subtract( new BrobInt("-8") ) ); }
+catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); }
+System.out.println( "\n    Subtracting 1 by -10: " );
+try { System.out.println( "      expecting: 11\n        and got: " + new BrobInt("1").subtract( new BrobInt("-10") ) ); }
+catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); }
+System.out.println( "\n    Subtracting 4697497 by 49254: " );
+try { System.out.println( "      expecting: 4648243\n        and got: " + new BrobInt("4697497").subtract( new BrobInt("49254") ) ); }
+catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); }
+System.out.println( "\n    Subtracting 924 by 0: " );
+try { System.out.println( "      expecting: 924\n        and got: " + new BrobInt("924").subtract( new BrobInt("0") ) ); }
+catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); }
+System.out.println( "\n    Subtracting 0 by -0: " );
+try { System.out.println( "      expecting: 0\n        and got: " + new BrobInt("0").subtract( new BrobInt("-0") ) ); }
+catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); }
+System.out.println( "\n    Subtracting 647473421 by -32454213454: " );
+try { System.out.println( "      expecting: 3.3e10\n        and got: " + new BrobInt("647473421").subtract( new BrobInt("-32454213454") ) ); }
+catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); }
+System.out.println("---------------------------Multiplication Tests---------------------------");
+
+System.out.println( "\n    Multiplying 33 by 3: " );
+try { System.out.println( "      expecting: 99\n        and got: " + new BrobInt("33").multiply( BrobInt.THREE ) ); }
+catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); }
+System.out.println( "\n    Multiplying 82832833 by 3: " );
+try { System.out.println( "      expecting: 248498499\n        and got: " + new BrobInt("82832833").multiply( BrobInt.THREE ) ); }
+catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); }
+System.out.println( "\n    Multiplying 1 by 1: " );
+try { System.out.println( "      expecting: 1\n        and got: " + new BrobInt("1").multiply( new BrobInt("1") ) ); }
+catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); }
+System.out.println( "\n    Multiplying 2 by 3: " );
+try { System.out.println( "      expecting: 6\n        and got: " + new BrobInt("2").multiply( new BrobInt("3") ) ); }
+catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); }
+System.out.println( "\n    Multiplying 5 by 7: " );
+try { System.out.println( "      expecting: 35\n        and got: " + new BrobInt("5").multiply( new BrobInt("7") ) ); }
+catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); }
+System.out.println( "\n    Multiplying 64 by 32: " );
+try { System.out.println( "      expecting: 2048\n        and got: " + new BrobInt("64").multiply( new BrobInt("32") ) ); }
+catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); }
+System.out.println( "\n    Multiplying 567 by 987: " );
+try { System.out.println( "      expecting: 559629\n        and got: " + new BrobInt("567").multiply( new BrobInt("987") ) ); }
+catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); }
+System.out.println( "\n    Multiplying 3 by -1: " );
+try { System.out.println( "      expecting: -3\n        and got: " + new BrobInt("1").multiply( new BrobInt("-1") ) ); }
+catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); }
+System.out.println( "\n    Multiplying 425714 by 8164: " );
+try { System.out.println( "      expecting: 3475529096\n        and got: " + new BrobInt("425714").multiply( new BrobInt("8164") ) ); }
+catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); }
+System.out.println( "\n    Multiplying -87 by -2: " );
+try { System.out.println( "      expecting: 174\n        and got: " + new BrobInt("-87").multiply( new BrobInt("-2") ) ); }
+catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); }
+System.out.println( "\n    Multiplying 98 by 0: " );
+try { System.out.println( "      expecting: 98\n        and got: " + new BrobInt("98").multiply( new BrobInt("0") ) ); }
+catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); }
+
+System.out.println("---------------------------Division Tests---------------------------");
+System.out.println( "\n    Dividing 1 by 1: " );
+try { System.out.println( "      expecting: 1\n        and got: " + new BrobInt("1").divide( new BrobInt("1") ) ); }
+catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); }
+System.out.println( "\n    Dividing 4 by 1: " );
+try { System.out.println( "      expecting: 4\n        and got: " + new BrobInt("4").divide( new BrobInt("1") ) ); }
+catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); }
+System.out.println( "\n    Dividing 6 by 3: " );
+try { System.out.println( "      expecting: 2\n        and got: " + new BrobInt("6").divide( new BrobInt("3") ) ); }
+catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); }
+System.out.println( "\n    Dividing 16 by 4: " );
+try { System.out.println( "      expecting: 4\n        and got: " + new BrobInt("16").divide( new BrobInt("4") ) ); }
+catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); }
+System.out.println( "\n    Dividing 4 by 7: " );
+try { System.out.println( "      expecting: 0\n        and got: " + new BrobInt("4").divide( new BrobInt("7") ) ); }
+catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); }
+System.out.println( "\n    Dividing 9 by 5: " );
+try { System.out.println( "      expecting: 1\n        and got: " + new BrobInt("9").divide( new BrobInt("5") ) ); }
+catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); }
+System.out.println( "\n    Dividing 13 by 2: " );
+try { System.out.println( "      expecting: 6\n        and got: " + new BrobInt("13").divide( new BrobInt("2") ) ); }
+catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); }
+System.out.println( "\n    Dividing 350 by 70: " );
+try { System.out.println( "      expecting: 5\n        and got: " + new BrobInt("350").divide( new BrobInt("70") ) ); }
+catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); }
+System.out.println( "\n    Dividing 862315 by 9834: " );
+try { System.out.println( "      expecting: 579\n        and got: " + new BrobInt("862315").divide( new BrobInt("9834") ) ); }
+catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); }
+System.out.println( "\n    Dividing 19 by 0: " );
+System.out.println("      expecting: Exception thrown\n        and got:");
+try { System.out.println( "      expecting: Exception thrown\n        and got: " + new BrobInt("19").divide( new BrobInt("0") ) ); }
+catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); }
+
+System.out.println("---------------------------Remainder Tests---------------------------");
+System.out.println( "\n    Finding the remainder of 20 by 18: " );
+try { System.out.println( "      expecting: 4\n        and got: " + new BrobInt("20").divide( new BrobInt("18") ) ); }
+catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); }
+System.out.println( "\n    Finding the remainder 80 by 17: " );
+try { System.out.println( "      expecting: 12\n        and got: " + new BrobInt("80").divide( new BrobInt("17") ) ); }
+catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); }
 
 
-
-
-    System.out.println( "\n    Multiplying 82832833 by 3: " );
-    try { System.out.println( "      expecting: 248498499\n        and got: " + new BrobInt("82832833").multiply( BrobInt.THREE ) ); }
-    catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); }
-
-    // System.out.println( "\n    Multiplying 3 by 82832833 and adding 1: " );
-    // try { System.out.println( "      expecting: 248498500\n        and got: " + BrobInt.THREE.multiply( new BrobInt( "82832833" ) ).add( BrobInt.ONE ) ); }
-    // catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); }
-    // System.exit( 0 );
-
+System.out.println("---------------------------Equals Tests---------------------------");
+System.out.println( "\n    Checking to see if 1 = 1: " );
+try { System.out.println( "      expecting: true\n        and got: " + new BrobInt("1").equals( new BrobInt("1") ) ); }
+catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); }
+System.out.println( "\n    Checking to see if -1 = -1: " );
+try { System.out.println( "      expecting: true\n        and got: " + new BrobInt("-1").equals( new BrobInt("-1") ) ); }
+catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); }
+System.out.println( "\n    Checking to see if -1 = 1: " );
+try { System.out.println( "      expecting: false\n        and got: " + new BrobInt("-1").equals( new BrobInt("1") ) ); }
+catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); }
+System.out.println( "\n    Checking to see if 0 = 0: " );
+try { System.out.println( "      expecting: true\n        and got: " + new BrobInt("0").equals( new BrobInt("0") ) ); }
+catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); }
+System.out.println( "\n    Checking to see if 1 = 0: " );
+try { System.out.println( "      expecting: false\n        and got: " + new BrobInt("1").equals( new BrobInt("0") ) ); }
+catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); }
+System.out.println( "\n    Checking to see if 349818324695237 = 349818324695237: " );
+try { System.out.println( "      expecting: true\n        and got: " + new BrobInt("349818324695237").equals( new BrobInt("349818324695237") ) ); }
+catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); }
+System.out.println( "\n    Checking to see if 78621381297 = 12391280123: " );
+try { System.out.println( "      expecting: false\n        and got: " + new BrobInt("78621381297").equals( new BrobInt("12391280123") ) ); }
+catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); }
+System.out.println("------------------------------------------------------------------");
  }
 
 
